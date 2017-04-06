@@ -1,13 +1,16 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class LearnWords {
 	
-	public static void main(String[] args){
-		
-		int[][] letterCount = new int[25][27];
+	private static int[][] letterCount = new int[25][27];
+	
+	public LearnWords() {
 		
 		for(int i = 0; i < 25; i++){
 			for(int j = 0; j < 27; j++){
@@ -18,14 +21,13 @@ public class LearnWords {
 		String fileName = "words.txt";
 		String line = null;
         try {
-            FileReader fileReader = 
-                new FileReader(fileName);
-            BufferedReader bufferedReader = 
-                new BufferedReader(fileReader);
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
 
             while((line = bufferedReader.readLine()) != null) {
                 String[] tokens = line.split("");
                 letterCount[tokens.length][0]++;
+                //createWordFiles(tokens.length, line);
                 
                 for(int i = 0; i < tokens.length; i++){
                 	if(tokens[i].equals("a") || tokens[i].equals("A")){
@@ -121,15 +123,61 @@ public class LearnWords {
                 + fileName + "'");                  
         }
         
-        for(int i = 1; i < 25; i++){
-        	System.out.println(letterCount[i][0] + " number of " + i + " letter words.");
-        	System.out.println("A: " + letterCount[i][1] + " " + "B: " + letterCount[i][2] + " " + "C: " + letterCount[i][3] + " "+ "D: " + letterCount[i][4] + " " +
-        			"E: " + letterCount[i][5] + " " + "F: " + letterCount[i][6] + " " + "G: " + letterCount[i][7] + " "+ "H: " + letterCount[i][8] + " " +
-        			"I: " + letterCount[i][9] + " " + "J: " + letterCount[i][10] + " " + "K: " + letterCount[i][11] + " "+ "L: " + letterCount[i][12] + " " +
-        			"M: " + letterCount[i][13] + " " + "N: " + letterCount[i][14] + " " + "O: " + letterCount[i][15] + " "+ "P: " + letterCount[i][16] + " " +
-        			"Q: " + letterCount[i][17] + " " + "R: " + letterCount[i][18] + " " + "S: " + letterCount[i][19] + " "+ "T: " + letterCount[i][20] + " " +
-        			"U: " + letterCount[i][21] + " " + "V: " + letterCount[i][22] + " " + "W: " + letterCount[i][23] + " "+ "X: " + letterCount[i][24] + " " +
-        			"Y: " + letterCount[i][25] + " " + "Z: " + letterCount[i][26] + " ");
-        }
+        //createProbFile();
+//        for(int i = 1; i < 25; i++){
+//        	System.out.println(letterCount[i][0] + " number of " + i + " letter words.");
+//        	System.out.println("A: " + letterCount[i][1] + " " + "B: " + letterCount[i][2] + " " + "C: " + letterCount[i][3] + " "+ "D: " + letterCount[i][4] + " " +
+//        			"E: " + letterCount[i][5] + " " + "F: " + letterCount[i][6] + " " + "G: " + letterCount[i][7] + " "+ "H: " + letterCount[i][8] + " " +
+//        			"I: " + letterCount[i][9] + " " + "J: " + letterCount[i][10] + " " + "K: " + letterCount[i][11] + " "+ "L: " + letterCount[i][12] + " " +
+//        			"M: " + letterCount[i][13] + " " + "N: " + letterCount[i][14] + " " + "O: " + letterCount[i][15] + " "+ "P: " + letterCount[i][16] + " " +
+//        			"Q: " + letterCount[i][17] + " " + "R: " + letterCount[i][18] + " " + "S: " + letterCount[i][19] + " "+ "T: " + letterCount[i][20] + " " +
+//        			"U: " + letterCount[i][21] + " " + "V: " + letterCount[i][22] + " " + "W: " + letterCount[i][23] + " "+ "X: " + letterCount[i][24] + " " +
+//        			"Y: " + letterCount[i][25] + " " + "Z: " + letterCount[i][26] + " ");
+//        }
+	}
+	
+	public void createWordFiles(int num, String word){
+		File file = new File(Integer.toString(num) + ".txt");
+		try{
+			if(file.exists()==false){
+				System.out.println("Created new file");
+			    file.createNewFile();
+			}
+			FileWriter fileWriter = new FileWriter(file, true);
+			
+			BufferedWriter out = new BufferedWriter(fileWriter);
+			out.write(word);
+			out.newLine();
+			out.close();
+		} catch(IOException e){
+			System.out.println("Unable to add word");
+		}
+	}
+	
+	public void createProbFile(){
+		File file = new File("probability.txt");
+		try{
+			if(file.exists()==false){
+				System.out.println("Created new file");
+			    file.createNewFile();
+			}
+			FileWriter fileWriter = new FileWriter(file, true);
+			
+			BufferedWriter out = new BufferedWriter(fileWriter);
+			for(int i = 1; i < 25; i++){
+	        	String probs = letterCount[i][1] + " " + letterCount[i][2] + " " + letterCount[i][3] + " " + letterCount[i][4] + " " +
+	        			letterCount[i][5] + " " + letterCount[i][6] + " " + letterCount[i][7] + " " + letterCount[i][8] + " " + 
+	        			letterCount[i][9] + " " + letterCount[i][10] + " " + letterCount[i][11] + " " + letterCount[i][12] + " " +
+	        			letterCount[i][13] + " " + letterCount[i][14] + " " + letterCount[i][15] + " " + letterCount[i][16] + " " +
+	        			letterCount[i][17] + " " + letterCount[i][18] + " " + letterCount[i][19] + " " + letterCount[i][20] + " " +
+	        			letterCount[i][21] + " " + letterCount[i][22] + " " + letterCount[i][23] + " " + letterCount[i][24] + " " +
+	        			letterCount[i][25] + " " + letterCount[i][26];
+	        	out.write(probs);
+	        	out.newLine();
+			}
+			out.close();
+		} catch(IOException e){
+			System.out.println("Unable to add word");
+		}
 	}
 }
